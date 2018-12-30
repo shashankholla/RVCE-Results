@@ -1,0 +1,280 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">RVCE-Results</a>
+               
+              
+              </nav>
+    <div class="container">
+        <div class="card login">
+              
+                      <div class="info">
+                        <div class="yearlabel">1RV</div>
+                        <div class="form-year">
+                             
+                                <select class="year" id="year" style="width:7%;max-width:7%;">
+                                  <option>16</option>
+                                  <option>17</option>
+                                  <option>18</option>
+                                 
+                                </select>
+
+                                <select class="branch" id="branch" style="width:7%;max-width:7%;">
+                                        <option>AS</option>
+                                        <option>BT</option>
+                                        <option>CH</option>
+                                        <option>CV</option>
+                                        <option>CS</option>
+                                        <option>EE</option>
+                                        <option>EC</option>
+                                        <option>EI</option>
+                                        <option>IS</option>
+                                        <option>ME</option>
+                                        <option>TE</option>
+                                        <option>IM</option>
+                                       
+                                      </select>
+
+                                      <input type="text" placeholder="XXX" id="usnnum" required>
+
+
+
+
+                              </div> 
+                            </div>
+                        <button class="btn btn-lg btn-primary btn-block "  onclick="log()">Submit</button>
+                   
+        </div>
+      <div class="card">
+          <div id="sName"></div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+
+
+    <script>
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyBVq8f4wAlyYPIZboJsRJrj9gg-ygJ7NxA",
+          authDomain: "willigetajob-56323.firebaseapp.com",
+          databaseURL: "https://willigetajob-56323.firebaseio.com",
+          projectId: "willigetajob-56323",
+          storageBucket: "willigetajob-56323.appspot.com",
+          messagingSenderId: "702400489914"
+        };
+        firebase.initializeApp(config);
+      </script>
+          
+          <script>
+       
+          var database = firebase.database();
+        
+          
+          </script>
+
+
+<!-- initialised-->
+
+<script>
+  function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+    var year,branch,usnnum,semester,branchS,dataS,refString,fullUSN;
+    var sName,sGPA,sRank;
+
+
+    var sems = ["Semester 2","Semester 4"];
+    function log(){
+        year = document.getElementById("year").value;
+    branch = document.getElementById("branch").value;
+     usnnum = document.getElementById("usnnum").value;
+
+    
+    switch(year){
+        case "17":
+             semester = "Semester 2";
+             break;
+        case "16":
+         semester = "Semester 4";
+         break;
+    }
+   
+    switch(branch){
+        case "AS" :
+             branchS = "AEROSPACE";
+            break;
+        case "BT" :
+             branchS = "BIOTECHNOLOGY";
+            break;
+        case "CH" :
+             branchS = "CHEMICAL";
+            break;
+        case "CV" :
+             branchS = "CIVIL";
+            break;
+        case "CS" :
+             branchS = "COMPUTER SCIENCE AND";
+            break;
+        case "EE" :
+             branchS = "ELECTRICAL AND ELECTRONICS";
+            break;
+        case "EC" :
+         branchS = "ELECTRONICS AND COMMUNICATION";
+        break;
+        case "EI" :
+         branchS = "ELECTRONICS AND INSTRUMENTATION";
+        break;
+        case "IS" :
+         branchS = "INFORMATION SCIENCE AND";
+        break;
+        case "ME" :
+         branchS = "MECHANICAL";
+        break;
+        case "TE" :
+         branchS = "TELECOMMUNICATION";
+        break;
+        case "IM" :
+         branchS = "INDUSTRIAL  AND MANAGEMENT";
+        break;
+    }
+        
+    
+
+     dataS = 0;
+     refString = '0/'+semester+'_'+branchS;
+     fullUSN = "1RV" + year + branch + usnnum;
+    console.log(fullUSN);
+    var ref = database.ref('0/'+semester+'_'+branchS);
+          ref.on('value', gotData, errData);
+      
+          function gotData(data){
+            dataS = data.val();
+              //console.log(data.val());
+              logSGPA(data.val());
+          }
+          
+          function errData(err)
+          {
+              console.log("Error!");
+              console.log(err);
+          }
+
+           
+        
+          
+
+
+
+
+
+    console.log(usnnum);
+}
+
+var found = false;
+
+function logSGPA(data){
+            console.log(data);
+        var i = 0
+        console.log(fullUSN)
+        for(i = 0; i< data.length; i++)
+        {  // console.log(data[i]["USN"]);
+            if(data[i]["USN"] == fullUSN)
+
+            {   found = true;
+                
+                   sName = data[i]["Name"];
+                sGPA = data[i]["SGPA"];
+                console.log(data[i]["Name"]);
+                document.getElementById("sName").innerHTML = data[i]["Name"];
+                break;
+            }
+           
+        }
+        i = 0;
+        while(!found && i < sems.length)
+        {   console.log(i);
+
+            i = i + 1;
+
+            
+            var ref = database.ref('0/'+sems[i]+'_'+branchS);
+          ref.on('value', gotData, errData);
+      
+          function gotData(data){
+            dataS = data.val();
+              console.log(data.val());
+              
+          }
+          
+          function errData(err)
+          {
+              console.log("Error!");
+              console.log(err);
+          }
+          console.log(data);
+
+          if(data[i]["USN"] == fullUSN)
+
+            {   found = true;
+                
+                   sName = data[i]["Name"];
+                sGPA = data[i]["SGPA"];
+                console.log(data[i]["Name"]);
+                document.getElementById("sName").innerHTML = data[i]["Name"];
+                break;
+            }
+           
+
+
+
+
+
+
+
+        }
+
+        sRank = 1;
+        for(i = 0; i< data.length; i++)
+        {  // console.log(data[i]["USN"]);
+            if(data[i]["SGPA"] > sGPA)
+            {
+                sRank = sRank + 1;
+            }
+           
+        }
+        console.log("Your Rank");
+        console.log(sRank);  
+
+
+
+}
+
+</script>
+
+
+
+
+</body>
+
+
+</html>
+
+   
+

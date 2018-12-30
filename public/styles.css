@@ -1,0 +1,33 @@
+body{
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+}
+
+.login{
+    margin: 40px;
+    padding: 40px 40px;
+
+}
+
+.info{
+    margin: 15px;
+}
+
+.form-year{
+    width: auto;
+    display : inline;
+    
+}
+
+.yearlabel{
+    display : inline;
+    padding-right : 4px;
+    width: auto;   
+    float: left;
+}
+
+
+.branch{
+    min-width: 25px;
+}
