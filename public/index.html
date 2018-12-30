@@ -92,13 +92,12 @@
 <!-- initialised-->
 
 <script>
-  function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+  
 
     var year,branch,usnnum,semester,branchS,dataS,refString,fullUSN;
     var sName,sGPA,sRank;
-
+    var found = false;
+    var sI = -1;
 
     var sems = ["Semester 2","Semester 4"];
     function log(){
@@ -158,98 +157,96 @@
     
 
      dataS = 0;
-     refString = '0/'+semester+'_'+branchS;
+    
      fullUSN = "1RV" + year + branch + usnnum;
     console.log(fullUSN);
+       getMyData(semester);
+       
+ 
+
+
+
+
+
+
+
+    
+}
+
+function getMyData(semester)
+{
+
+    refString = '0/'+semester+'_'+branchS;
+    
     var ref = database.ref('0/'+semester+'_'+branchS);
           ref.on('value', gotData, errData);
       
           function gotData(data){
             dataS = data.val();
-              //console.log(data.val());
-              logSGPA(data.val());
+           
+           console.log(semester);
+           console.log(dataS);
+            found = checkIfExists(dataS);
+           
+           console.log(found);
+           console.log("..");
+            if(!found && sI< sems.length){
+                sI = sI+1;
+                console.log("Im in");
+                getMyData(sems[sI]);
+                found = checkIfExists(dataS);
+                
+            }
+
+            if(found)
+        {   console.log("Ok. Found");
+            parseData(dataS);
+        }
+        if(!found && sI >= sems.length){
+            alert("USN Invalid");
+            sI = -1;
+        }
+            
+           
           }
-          
+
+
           function errData(err)
           {
               console.log("Error!");
               console.log(err);
           }
 
-           
         
-          
+       
+
+       
 
 
 
 
-
-    console.log(usnnum);
 }
 
-var found = false;
 
-function logSGPA(data){
-            console.log(data);
-        var i = 0
-        console.log(fullUSN)
-        for(i = 0; i< data.length; i++)
+function parseData(data)
+{
+    for(i = 0; i< data.length; i++)
         {  // console.log(data[i]["USN"]);
             if(data[i]["USN"] == fullUSN)
-
-            {   found = true;
+            {   
                 
                    sName = data[i]["Name"];
                 sGPA = data[i]["SGPA"];
                 console.log(data[i]["Name"]);
-                document.getElementById("sName").innerHTML = data[i]["Name"];
+               
                 break;
             }
-           
-        }
-        i = 0;
-        while(!found && i < sems.length)
-        {   console.log(i);
 
-            i = i + 1;
-
-            
-            var ref = database.ref('0/'+sems[i]+'_'+branchS);
-          ref.on('value', gotData, errData);
-      
-          function gotData(data){
-            dataS = data.val();
-              console.log(data.val());
-              
-          }
           
-          function errData(err)
-          {
-              console.log("Error!");
-              console.log(err);
-          }
-          console.log(data);
-
-          if(data[i]["USN"] == fullUSN)
-
-            {   found = true;
-                
-                   sName = data[i]["Name"];
-                sGPA = data[i]["SGPA"];
-                console.log(data[i]["Name"]);
-                document.getElementById("sName").innerHTML = data[i]["Name"];
-                break;
-            }
-           
-
-
-
-
-
+       
 
 
         }
-
         sRank = 1;
         for(i = 0; i< data.length; i++)
         {  // console.log(data[i]["USN"]);
@@ -262,9 +259,35 @@ function logSGPA(data){
         console.log("Your Rank");
         console.log(sRank);  
 
+        document.getElementById("sName").innerHTML = sName + ".Your Rank is " + sRank;
+
 
 
 }
+function checkIfExists(data){
+ 
+    for(i = 0; i< data.length; i++)
+        {  //console.log(data[i]["USN"]);
+            if(data[i]["USN"] == fullUSN)
+
+            {
+             
+             
+                return true;
+                
+            }
+           
+        }
+    
+return false;
+
+
+}
+
+
+
+
+
 
 </script>
 
