@@ -70,6 +70,12 @@
                             <div name="avgSGPA-now"></div>
                         </div>
                     </div>
+                    <div class="col-xs-3">
+                            <div class="card" style="min-height: 100px;min-width: 100px; padding:5px;margin:10px">
+                                <div class="card-subtitle mb-2 text-muted"> Rank in Branch</div>
+                                <div name="rank-now"></div>
+                            </div>
+                        </div>
             </div>
         </div>
 
@@ -330,6 +336,7 @@ function parseData(data)
 
         document.getElementsByName("SGPA-now")[0].innerHTML ="<h2>" + parseFloat(data[currentIndex]["SGPA"]).toFixed(2) + "</h2>";
         document.getElementsByName("avgSGPA-now")[0].innerHTML ="<h2>" +avgSGPA + "</h2>";
+        document.getElementsByName("rank-now")[0].innerHTML ="<h2>" +sRank + "</h2>";
 
         for(var sub in data[currentIndex])
         {
@@ -444,7 +451,7 @@ console.log(keys);
             type: "line",
             mode: "vertical",
             scaleID: "x-axis-0",
-            value: "9.72",
+            value: parseFloat(sGPA).toFixed(2),
             borderColor: "blue",
             label: {
               content: "YOU",
