@@ -1,6 +1,14 @@
+
+html {
+    height: auto !important;
+    padding-bottom: 700px !important;
+}
+
 body{
-    height: 100%;
-    background-repeat: no-repeat;
+    
+  /* Center and scale the image nicely */
+  
+   
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
 }
 
