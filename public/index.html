@@ -134,13 +134,18 @@
     var gpaS = {};
     var sems = ["Semester 2","Semester 4"];
     function log(){
-        alert("Please Wait");
-        document.getElementsByName("submit")[0].style.display = 'none';
+        usnnum = document.getElementById("usnnum").value;
+        if(usnnum == "")
+            return;
+
+
+
+          document.getElementsByName("submit")[0].style.display = 'none';
         document.getElementsByName("displayData1")[0].style.display = 'inline';
     
         year = document.getElementById("year").value;
     branch = document.getElementById("branch").value;
-     usnnum = document.getElementById("usnnum").value;
+    
 
     
     switch(year){
