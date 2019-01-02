@@ -22,14 +22,14 @@
                         <div class="yearlabel">1RV</div>
                         <div class="form-year">
                              
-                                <select class="year" id="year" style="width:7%;max-width:7%;">
+                                <select class="year" id="year" style="width:7%;max-width:7%;min-width: 60px">
                                   <option>16</option>
                                   <option>17</option>
                                   <option>18</option>
                                  
                                 </select>
 
-                                <select class="branch" id="branch" style="width:7%;max-width:7%;">
+                                <select class="branch" id="branch" style="width:7%;max-width:7%;min-width: 60px;">
                                         <option>AS</option>
                                         <option>BT</option>
                                         <option>CH</option>
@@ -45,14 +45,14 @@
                                        
                                       </select>
 
-                                      <input type="text" placeholder="XXX" id="usnnum" required>
+                                      <input type="text" placeholder="XXX" id="usnnum" style="width:7%;max-width:7%;min-width: 60px;" required>
 
 
 
 
                               </div> 
                             </div>
-                        <button class="btn btn-lg btn-primary btn-block "  onclick="log()">Submit</button>
+                        <button class="btn btn-lg btn-primary btn-block "  onclick="log()" style="width:7%;max-width:7%;min-width: 120px;">Submit</button>
                    
         </div>
         <div name="displayData1" style="display: none">
@@ -79,10 +79,10 @@
             <div class="container">
             
                 <div class="row">
-                <div class="col-xs-5" name="subs" style="width: 25%;margin: 5px">
+                <div class="col-xs-12 col-md-4" name="subs" style="margin: 5px">
 
                 </div>
-                <div class="col-xs-7">
+                <div class="col-xs-12 col-md-7" style="float: left;">
                         <canvas id="myChart" width="600px" height="600px"></canvas>
                 </div>
             </div>
