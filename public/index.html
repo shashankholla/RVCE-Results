@@ -77,6 +77,12 @@
                                 <div name="rank-now"></div>
                             </div>
                         </div>
+                    <div class="col-xs-3">
+                            <div class="card" style="min-height: 100px;min-width: 100px; padding:5px;margin:10px">
+                              <div class="card-subtitle mb-2 text-muted">Name</div>
+                            <div name="name-now"></div>
+                        </div>
+                    </div>
             </div>
         </div>
 
@@ -346,6 +352,7 @@ function parseData(data)
         document.getElementsByName("SGPA-now")[0].innerHTML ="<h2>" + parseFloat(data[currentIndex]["SGPA"]).toFixed(2) + "</h2>";
         document.getElementsByName("avgSGPA-now")[0].innerHTML ="<h2>" +avgSGPA + "</h2>";
         document.getElementsByName("rank-now")[0].innerHTML ="<h2>" +sRank + "</h2>";
+        document.getElementsByName("name-now")[0].innerHTML ="<h2>" + sName + "</h2>";
 
         for(var sub in data[currentIndex])
         {
