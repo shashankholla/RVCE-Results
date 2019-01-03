@@ -7,26 +7,27 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
-    <title>Hello, world!</title>
+    <title>RVCE Results</title>
   </head>
   <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">RVCE-Results</a>
-               
-              
+
+
               </nav>
     <div class="container">
         <div class="card login" name="submit">
-              
+
                       <div class="info">
                         <div class="yearlabel">1RV</div>
                         <div class="form-year">
-                             
+
                                 <select class="year" id="year" style="width:7%;max-width:7%;min-width: 60px">
+                                  <option>15</option>
                                   <option>16</option>
                                   <option>17</option>
                                   <option>18</option>
-                                 
+
                                 </select>
 
                                 <select class="branch" id="branch" style="width:7%;max-width:7%;min-width: 60px;">
@@ -38,22 +39,22 @@
                                         <option>EE</option>
                                         <option>EC</option>
                                         <option>EI</option>
+                                        <option>IM</option>
                                         <option>IS</option>
                                         <option>ME</option>
                                         <option>TE</option>
-                                        <option>IM</option>
-                                       
+
                                       </select>
 
-                                      <input type="text" placeholder="XXX" id="usnnum" style="width:7%;max-width:7%;min-width: 60px;" required>
+                                      <input type="text" placeholder="XXX" id="usnnum" style="width:7%;max-width:7%;min-width: 60px;" required maxlength="3">
 
 
 
 
-                              </div> 
+                              </div>
                             </div>
                         <button class="btn btn-lg btn-primary btn-block "  onclick="log()" style="width:7%;max-width:7%;min-width: 120px;">Submit</button>
-                   
+
         </div>
         <div name="displayData1" style="display: none">
         <div class="container" >
@@ -81,9 +82,9 @@
 
 
         <div class="card" >
-            
+
             <div class="container">
-            
+
                 <div class="row">
                 <div class="col-xs-12 col-md-4" name="subs" style="margin: 5px">
 
@@ -95,7 +96,7 @@
         </div>
         </div>
     </div>
-    
+
     </div>
 
     <!-- Optional JavaScript -->
@@ -118,19 +119,19 @@
         };
         firebase.initializeApp(config);
       </script>
-          
+
           <script>
-       
+
           var database = firebase.database();
-        
-          
+
+
           </script>
 
 
 <!-- initialised-->
 
 <script>
-  
+
     var labelforChart
     var year,branch,usnnum,semester,branchS,dataS,refString,fullUSN;
     var sName,sGPA,sRank;
@@ -138,31 +139,39 @@
     var sI = -1;
     var subs =[];
     var gpaS = {};
-    var sems = ["Semester 2","Semester 4"];
+    var sems = ["Semester 1","Semester 2","Semester 4" ,"Semester 6"];
     function log(){
         usnnum = document.getElementById("usnnum").value;
         if(usnnum == "")
             return;
+        while(usnnum.toString().length<3)
+          usnnum = "0" + usnnum;
 
 
 
           document.getElementsByName("submit")[0].style.display = 'none';
         document.getElementsByName("displayData1")[0].style.display = 'inline';
-    
+
         year = document.getElementById("year").value;
     branch = document.getElementById("branch").value;
-    
 
-    
+
+
     switch(year){
+        case "15":
+          semester="Semester 6";
+          break;
         case "17":
              semester = "Semester 2";
              break;
         case "16":
          semester = "Semester 4";
          break;
+         case "18":
+          semester ="Semester 1";
+          break;
     }
-   
+
     switch(branch){
         case "AS" :
              branchS = "AEROSPACE";
@@ -201,16 +210,14 @@
          branchS = "INDUSTRIAL  AND MANAGEMENT";
         break;
     }
-        
-    
+
+
 
      dataS = 0;
-    
+
      fullUSN = "1RV" + year + branch + usnnum;
   //  console.log(fullUSN);
        getMyData(semester);
-       
- 
 
 
 
@@ -218,24 +225,26 @@
 
 
 
-    
+
+
+
 }
 
 function getMyData(semester)
 {
 
     refString = '0/'+semester+'_'+branchS;
-    
+
     var ref = database.ref('0/'+semester+'_'+branchS);
           ref.on('value', gotData, errData);
-      
+
           function gotData(data){
             dataS = data.val();
-           
+
        //    console.log(semester);
          //  console.log(dataS);
             found = checkIfExists(dataS);
-           
+
         //   console.log(found);
          //  console.log("..");
             if(!found && sI< sems.length){
@@ -243,7 +252,7 @@ function getMyData(semester)
            //     console.log("Im in");
                 getMyData(sems[sI]);
                 found = checkIfExists(dataS);
-                
+
             }
 
             if(found)
@@ -254,8 +263,8 @@ function getMyData(semester)
             alert("USN Invalid");
             sI = -1;
         }
-            
-           
+
+
           }
 
 
@@ -265,10 +274,10 @@ function getMyData(semester)
               console.log(err);
           }
 
-        
-       
 
-       
+
+
+
 
 
 
@@ -277,13 +286,13 @@ function getMyData(semester)
 
 
 function parseData(data)
-{   
+{
     var currentIndex = 0;
     for(i = 0; i< data.length; i++)
         {  // console.log(data[i]["USN"]);
             if(data[i]["USN"] == fullUSN)
-            {   
-                
+            {
+
                    sName = data[i]["Name"];
                 sGPA = data[i]["SGPA"];
             //    console.log(data[i]["Name"]);
@@ -291,21 +300,21 @@ function parseData(data)
                 break;
             }
 
-          
-       
+
+
 
 
         }
         sRank = 1;
-       
+
 
         var sumOfSGPA = 0;
         for(i = 0; i< data.length; i++)
 
         {  // console.log(data[i]["USN"]);
-           
+
            var thisGpa =parseFloat(data[i]["SGPA"]).toFixed(2);
-           
+
            if(!(thisGpa in gpaS))
            {
                gpaS[thisGpa] = 1;
@@ -319,19 +328,19 @@ function parseData(data)
             {
                 sRank = sRank + 1;
             }
-           
+
         }
 
         console.log(gpaS);
         makeChart(gpaS);
         var avgSGPA = (sumOfSGPA/data.length).toFixed(2);
        // console.log("Your Rank");
-        //console.log(sRank);  
+        //console.log(sRank);
        // console.log(data[currentIndex])
 
         //getting subjects now
 
-       
+
         //console.log(data[currentIndex]);
 
         document.getElementsByName("SGPA-now")[0].innerHTML ="<h2>" + parseFloat(data[currentIndex]["SGPA"]).toFixed(2) + "</h2>";
@@ -340,9 +349,9 @@ function parseData(data)
 
         for(var sub in data[currentIndex])
         {
-          
+
             if(sub != "SGPA" && sub != "Name" && sub!="USN")
-            {   
+            {
                subs.push([sub,data[currentIndex][sub]]);
             }
 
@@ -354,7 +363,7 @@ function parseData(data)
         document.getElementsByName("subs")[0].appendChild(nDiv);
         nDiv.innerHTML = "<h6>" +  subs[x][0] + ":" + "</h6>" +  "<h3>" + subs[x][1] + "</h3>" + "<hr>";
         }
-        
+
 
 
         //document.getElementById("sName").innerHTML = sName + ".Your Rank is " + sRank;
@@ -363,20 +372,20 @@ function parseData(data)
 
 }
 function checkIfExists(data){
- 
+
     for(i = 0; i< data.length; i++)
         {  //console.log(data[i]["USN"]);
             if(data[i]["USN"] == fullUSN)
 
             {
-             
-             
+
+
                 return true;
-                
+
             }
-           
+
         }
-    
+
 return false;
 
 
@@ -390,14 +399,14 @@ return false;
 </script>
 
 <script>
-        
+
        function makeChart(gpaS){
 
 
 
         var keys = Object.keys(gpaS);
-        var i, len = keys.length; 
-        keys.sort(); 
+        var i, len = keys.length;
+        keys.sort();
         var dt = [];
 
 console.log(keys);
@@ -408,7 +417,7 @@ console.log(keys);
     k = keys[i];
 
     //show you the key and the value (retrieved by accessing dict with current key)
-   
+
 
     //Using the array 'push' method, we add an object at the end of the result array
     //It will hold the key/value pair
@@ -418,7 +427,7 @@ console.log(keys);
     console.log(dt);
 
 
-       
+
         var ctx = document.getElementById("myChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -429,11 +438,11 @@ console.log(keys);
                     data: dt,
                     backgroundColor:
                         'rgba(255, 99, 132, 0.2)',
-                       
-                    
-                    borderColor: 
+
+
+                    borderColor:
                         'rgba(255,99,132,1)'
-                       
+
                     ,
                     borderWidth: 1
                 }]
@@ -462,10 +471,10 @@ console.log(keys);
             }
             }
         });
-      
-       }    
 
-      
+       }
+
+
         </script>
 
 
@@ -473,6 +482,3 @@ console.log(keys);
 
 
 </html>
-
-   
-
