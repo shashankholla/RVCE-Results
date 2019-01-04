@@ -238,7 +238,7 @@
 
 function getMyData(semester)
 {
-
+    //var ref = database.ref('0/'+semester+'_'+branchS); (before I changed)
     var ref = database.ref(semester+'/'+branchS);
           ref.on('value', gotData, errData);
 
