@@ -114,17 +114,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.js"></script>
     <script>
-        // Initialize Firebase
-        var config = {
-          apiKey: "AIzaSyBVq8f4wAlyYPIZboJsRJrj9gg-ygJ7NxA",
-          authDomain: "willigetajob-56323.firebaseapp.com",
-          databaseURL: "https://willigetajob-56323.firebaseio.com",
-          projectId: "willigetajob-56323",
-          storageBucket: "willigetajob-56323.appspot.com",
-          messagingSenderId: "702400489914"
-        };
-        firebase.initializeApp(config);
-      </script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCSCNcvqx31Foq1NAeFjQFXpm1qPypvwEs",
+    authDomain: "rvce-results.firebaseapp.com",
+    databaseURL: "https://rvce-results.firebaseio.com",
+    projectId: "rvce-results",
+    storageBucket: "rvce-results.appspot.com",
+    messagingSenderId: "794400054089"
+  };
+  firebase.initializeApp(config);
+</script>
 
           <script>
 
@@ -139,7 +139,7 @@
 <script>
 
     var labelforChart
-    var year,branch,usnnum,semester,branchS,dataS,refString,fullUSN;
+    var year,branch,usnnum,semester,branchS,dataS,fullUSN;
     var sName,sGPA,sRank;
     var found = false;
     var sI = -1;
@@ -239,16 +239,12 @@
 function getMyData(semester)
 {
 
-    refString = '0/'+semester+'_'+branchS;
-
-    var ref = database.ref('0/'+semester+'_'+branchS);
+    var ref = database.ref(semester+'/'+branchS);
           ref.on('value', gotData, errData);
 
           function gotData(data){
             dataS = data.val();
 
-       //    console.log(semester);
-         //  console.log(dataS);
             found = checkIfExists(dataS);
 
         //   console.log(found);
@@ -379,7 +375,6 @@ function parseData(data)
 
 }
 function checkIfExists(data){
-    console.log(data);
     for(i = 0; i< data.length; i++)
         {  //console.log(data[i]["USN"]);
             if(data[i]["USN"] == fullUSN)
