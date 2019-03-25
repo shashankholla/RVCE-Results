@@ -7,7 +7,7 @@ Data is scrapped from the RVCE Website using Selenium Webdriver for Java on the 
 Firebase is also the host for this webapp. 
 
 The app is built like a single page app where the DOM in the same page is refreshed to load the results.
-
+![Screenshot](rvcescreengrab.png)
 ____
 ## Known Bugs
 
